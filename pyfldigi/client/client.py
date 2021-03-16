@@ -63,7 +63,7 @@ class Client(object):
         the XML-RPC function names.  I've taken a bit of artistic liberty with naming and grouping!
     """
 
-    def __init__(self, hostname='127.0.0.1', port=7362, reset=True, log=False):
+    def __init__(self, hostname='127.0.0.1', port=7362, reset=True, log=False, txmon=True):
         self.logger = logging.getLogger('pyfldigi.Client')
         self.ip_address = hostname
         self.port = port
@@ -77,7 +77,9 @@ class Client(object):
         self.spot = Spot(clientObj=self)
         self.flmsg = Flmsg(clientObj=self)
         self.io = Io(clientObj=self)
-        self.txmonitor = TxMonitor(clientObj=self)  # do this last
+        
+        if txmon:
+            self.txmonitor = TxMonitor(clientObj=self)  # do this last
 
     def startLogger(self, level=logging.INFO, filename=None):
         """Call this method if you don't have a dedicated logger in your python script."""
